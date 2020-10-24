@@ -5,7 +5,7 @@ import './database';
 
 const app = express();
 
-app.get('/', (request, response) => {
+app.post('/orphanages', (request, response) => {
   return response.json({ message: 'Hello World' });
 });
 
