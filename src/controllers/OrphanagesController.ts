@@ -24,8 +24,6 @@ class OrphanagesController {
   }
 
   async create(request: Request, response: Response) {
-    const orphanagesRepository = getRepository(Orphanages);
-
     const {
       name,
       latitude,
@@ -36,6 +34,14 @@ class OrphanagesController {
       open_on_weekends
     } = request.body;
 
+    const orphanagesRepository = getRepository(Orphanages);
+
+    const requestImages = request.files as Express.Multer.File[];
+
+    const images = requestImages.map(image => {
+      return { path: image.filename }
+    });
+
     const orphanages = orphanagesRepository.create({
       name,
       latitude,
@@ -44,6 +50,7 @@ class OrphanagesController {
       instructions,
       opening_hours,
       open_on_weekends,
+      images,
     });
 
     await orphanagesRepository.save(orphanages);
